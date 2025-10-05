@@ -21,9 +21,13 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
     { id: 'archive', label: 'Archive', labelUrdu: 'آرکائیو' }
   ];
 
+  const authNavItems = user
+    ? baseNavItems
+    : [...baseNavItems, { id: 'login', label: 'Login', labelUrdu: 'لاگ اِن' }];
+
   const navItems = isAdmin
-    ? [...baseNavItems, { id: 'admin', label: 'Admin', labelUrdu: 'ایڈمن' }]
-    : baseNavItems;
+    ? [...authNavItems, { id: 'admin', label: 'Admin', labelUrdu: 'ایڈمن' }]
+    : authNavItems;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">

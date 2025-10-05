@@ -10,6 +10,7 @@ export default function Footer({ onNavigate }: FooterProps) {
   const footerLinks = [
     { label: 'Home', page: 'home' },
     { label: 'Archive', page: 'archive' },
+    { label: 'Admin Setup Guide', page: 'setup' },
     { label: 'Contact', page: 'home' },
     { label: 'Privacy Policy', page: 'home' }
   ];

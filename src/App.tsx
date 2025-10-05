@@ -7,6 +7,7 @@ import ArchivePage from './pages/ArchivePage';
 import IssueDetailPage from './pages/IssueDetailPage';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
+import AdminSetupPage from './pages/AdminSetupPage';
 
 function AppContent() {
   const { isAdmin, loading, user } = useAuth();
@@ -52,6 +53,7 @@ function AppContent() {
         )}
         {currentPage === 'admin' && isAdmin && <AdminPage />}
         {currentPage === 'login' && <LoginPage onNavigate={handleNavigate} />}
+        {currentPage === 'setup' && <AdminSetupPage onNavigate={handleNavigate} />}
       </main>
 
       <Footer onNavigate={handleNavigate} />
