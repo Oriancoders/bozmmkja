@@ -1,5 +1,6 @@
-import { BookOpen, Menu, X } from 'lucide-react';
+import { BookOpen, Menu, X, LogOut } from 'lucide-react';
 import { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
 interface NavbarProps {
   currentPage: string;
@@ -7,13 +8,22 @@ interface NavbarProps {
 }
 
 export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
+  const { user, isAdmin, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = [
+  const handleSignOut = async () => {
+    await signOut();
+    onNavigate('home');
+  };
+
+  const baseNavItems = [
     { id: 'home', label: 'Home', labelUrdu: 'ہوم' },
-    { id: 'archive', label: 'Archive', labelUrdu: 'آرکائیو' },
-    { id: 'admin', label: 'Admin', labelUrdu: 'ایڈمن' }
+    { id: 'archive', label: 'Archive', labelUrdu: 'آرکائیو' }
   ];
+
+  const navItems = isAdmin
+    ? [...baseNavItems, { id: 'admin', label: 'Admin', labelUrdu: 'ایڈمن' }]
+    : baseNavItems;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
@@ -47,6 +57,15 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
                 <span className="block text-xs font-urdu">{item.labelUrdu}</span>
               </button>
             ))}
+            {user && (
+              <button
+                onClick={handleSignOut}
+                className="ml-2 px-4 py-2 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition-all duration-300 flex items-center gap-2"
+                title="Sign Out"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
           <button
@@ -77,6 +96,18 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               <span className="block text-xs font-urdu">{item.labelUrdu}</span>
             </button>
           ))}
+          {user && (
+            <button
+              onClick={() => {
+                handleSignOut();
+                setMobileMenuOpen(false);
+              }}
+              className="w-full px-6 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out</span>
+            </button>
+          )}
         </div>
       )}
     </nav>

@@ -1,22 +1,44 @@
 import { useState } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import ArchivePage from './pages/ArchivePage';
 import IssueDetailPage from './pages/IssueDetailPage';
 import AdminPage from './pages/AdminPage';
+import LoginPage from './pages/LoginPage';
 
-function App() {
+function AppContent() {
+  const { isAdmin, loading, user } = useAuth();
   const [currentPage, setCurrentPage] = useState<string>('home');
   const [selectedIssueId, setSelectedIssueId] = useState<string>('');
 
   const handleNavigate = (page: string, issueId?: string) => {
+    if (page === 'admin') {
+      if (!user) {
+        setCurrentPage('login');
+        return;
+      }
+      if (!isAdmin) {
+        alert('Access denied. Admin privileges required.');
+        return;
+      }
+    }
+
     setCurrentPage(page);
     if (issueId) {
       setSelectedIssueId(issueId);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-red-600 border-t-transparent"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -28,11 +50,20 @@ function App() {
         {currentPage === 'issue' && (
           <IssueDetailPage issueId={selectedIssueId} onNavigate={handleNavigate} />
         )}
-        {currentPage === 'admin' && <AdminPage />}
+        {currentPage === 'admin' && isAdmin && <AdminPage />}
+        {currentPage === 'login' && <LoginPage onNavigate={handleNavigate} />}
       </main>
 
       <Footer onNavigate={handleNavigate} />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
