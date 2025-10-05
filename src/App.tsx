@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import AuthDebug from './components/AuthDebug';
 import HomePage from './pages/HomePage';
 import ArchivePage from './pages/ArchivePage';
 import IssueDetailPage from './pages/IssueDetailPage';
@@ -57,6 +58,7 @@ function AppContent() {
       </main>
 
       <Footer onNavigate={handleNavigate} />
+      <AuthDebug />
     </div>
   );
 }
