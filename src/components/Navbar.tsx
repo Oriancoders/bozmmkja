@@ -37,13 +37,11 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             onClick={() => onNavigate('home')}
             className="flex items-center gap-3 group"
           >
-            <div className="bg-gradient-to-br from-red-600 to-red-700 p-2 rounded-xl group-hover:scale-105 transition-transform duration-300">
-              <BookOpen className="w-6 h-6 text-white" />
-            </div>
-            <div className="flex flex-col items-start">
-              <span className="text-xl font-bold text-gray-900">Magazine Archive</span>
-              <span className="text-sm text-gray-600 font-urdu">میگزین آرکائیو</span>
-            </div>
+            <img
+              src="/logo.jpg"
+              alt="Magazine Logo"
+              className="h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+            />
           </button>
 
           <div className="hidden md:flex items-center gap-1">
